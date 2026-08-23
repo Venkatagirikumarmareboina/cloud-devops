@@ -1,65 +1,76 @@
-# Cloud DevOps CI/CD Project
+# 🚀 Cloud DevOps CI/CD Project
 
-A hands-on Cloud DevOps project demonstrating how a web application can be containerized, tested, published, and deployed to AWS.
+A hands-on Cloud DevOps project demonstrating how a containerized web application moves from source code to a publicly accessible deployment on AWS EC2.
 
-## 🚀 Project Architecture
+The project combines Git, GitHub, Docker, GitHub Actions, Docker Hub, Linux, and AWS EC2 to demonstrate practical DevOps and cloud deployment concepts.
 
-GitHub → GitHub Actions → Docker → Docker Hub → AWS EC2 → Live Web Application
+---
+
+## 🏗️ Architecture
+
+![Cloud DevOps CI/CD Architecture](docs/architecture.png)
+
+### End-to-End Flow
+
+**GitHub → GitHub Actions → Docker → Docker Hub → AWS EC2 → Docker Container → Live Web Application**
+
+---
+
+## 🎯 Project Objective
+
+The goal of this project is to gain practical experience with a real-world DevOps workflow:
+
+- Manage source code using Git and GitHub
+- Containerize a web application using Docker
+- Automate Docker build and testing using GitHub Actions
+- Publish Docker images to Docker Hub
+- Deploy the containerized application on AWS EC2
+- Configure basic cloud networking and security
+- Expose the application through a public HTTP endpoint
+
+---
 
 ## 🛠️ Technologies Used
 
-- Git & GitHub
-- Docker
-- Nginx
-- GitHub Actions
-- Docker Hub
-- AWS EC2
-- Ubuntu Linux
+| Technology | Purpose |
+|---|---|
+| Git | Version control |
+| GitHub | Source code repository |
+| GitHub Actions | CI automation |
+| Docker | Application containerization |
+| Docker Hub | Container image registry |
+| Nginx | Web server |
+| Ubuntu Linux | EC2 server operating system |
+| AWS EC2 | Cloud compute infrastructure |
+| AWS Security Groups | Network access control |
+| SSH | Secure server administration |
 
-## 🔄 CI/CD Workflow
+---
 
-1. Source code is maintained in GitHub.
-2. GitHub Actions automatically runs when changes are pushed to `main`.
-3. Docker builds the application image.
-4. The image is tested in the CI workflow.
-5. GitHub Actions securely logs in to Docker Hub using GitHub Secrets.
-6. The Docker image is pushed to Docker Hub.
-7. The image is pulled onto an AWS EC2 Ubuntu server.
-8. The application runs inside a Docker container.
-9. Port 80 exposes the application to the internet.
+## 🔄 CI Workflow
 
-## 🐳 Docker
+The GitHub Actions pipeline is triggered when changes are pushed to the `main` branch.
 
-Docker is used to package the web application into a portable container.
+### Pipeline
 
-Docker image:
-
-`venkatagirikumarmareboina/cloud-devops-web:latest`
-
-## ☁️ AWS Deployment
-
-The application is deployed on an AWS EC2 Ubuntu server.
-
-The Docker container is exposed through port 80 and can be accessed through the EC2 public IPv4 address.
-
-## 🔐 Security
-
-GitHub Actions uses repository secrets for Docker Hub authentication.
-
-SSH access to the EC2 server is restricted to the configured IP address, while HTTP port 80 is publicly accessible for the web application.
-
-## 📚 What I Learned
-
-- Version control with Git and GitHub
-- Docker image and container management
-- Writing and using a Dockerfile
-- CI automation with GitHub Actions
-- Secure secret management
-- Publishing Docker images to Docker Hub
-- Deploying containers to AWS EC2
-- Connecting to Linux servers using SSH
-- Exposing a containerized application to the internet
-
-## 🎯 Project Goal
-
-The goal of this project is to build practical Cloud DevOps skills by taking an application from source code to a publicly accessible cloud deployment.
+```text
+Developer
+    │
+    ▼
+GitHub Repository
+    │
+    ▼
+GitHub Actions
+    │
+    ├── Checkout Repository
+    │
+    ├── Build Docker Image
+    │
+    ├── Run Docker Container Test
+    │
+    ├── Login to Docker Hub
+    │
+    └── Push Docker Image
+             │
+             ▼
+        Docker Hub
