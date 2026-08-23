@@ -1,10 +1,7 @@
-name: Cloud DevOps CI
+name: Cloud DevOps CI/CD
 
 on:
   push:
-    branches:
-      - main
-  pull_request:
     branches:
       - main
 
@@ -25,8 +22,29 @@ jobs:
       - name: Build Docker image
         run: docker build -t venkatagirikumarmareboina/cloud-devops-web:latest .
 
+      - name: Test Docker image
+        run: |
+          docker run --rm -d -p 8080:80 --name ci-test venkatagirikumarmareboina/cloud-devops-web:latest
+          sleep 5
+          curl --fail http://localhost:8080
+          docker stop ci-test
+
       - name: Push Docker image
         run: docker push venkatagirikumarmareboina/cloud-devops-web:latest
 
-      - name: Test Docker image
-        run: docker run --rm -d -p 8080:80 --name ci-test venkatagirikumarmareboina/cloud-devops-web:latest
+      - name: Deploy to AWS EC2
+        uses: appleboy/ssh-action@v1.2.2
+        with:
+          host: ${{ secrets.EC2_HOST }}
+          username: ubuntu
+          key: ${{ secrets.EC2_SSH_KEY }}
+          script: |
+            docker pull venkatagirikumarmareboina/cloud-devops-web:latest
+            docker stop cloud-devops-web || true
+            docker rm cloud-devops-web || true
+            docker run -d \
+              --name cloud-devops-web \
+              -p 80:80 \
+              venkatagirikumarmareboina/cloud-devops-web:latest
+            docker ps
+            curl --fail http://localhost
